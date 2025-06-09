@@ -1,0 +1,26 @@
+# Jupyter notebook files
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+.env/
+
+# Temporary system files
+*.log
+*.tmp
+*.swp
+.DS_Store
+
+# Compiled Python files
+__pycache__/
+*.py[cod]
+
+# Database or other generated folders
+*.sqlite3
+
+# Docker
+*.pid
+*.sock
+
+# VSCode-specific files
+.vscode/
