@@ -1,0 +1,9 @@
+services:
+  python:
+    container_name: etl_python
+    build: .
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "8888:8888"
