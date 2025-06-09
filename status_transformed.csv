@@ -1,0 +1,6 @@
+status_id,status_description
+1,did not attend
+2,attended
+3,cancelled
+4,scheduled
+5,unknown
