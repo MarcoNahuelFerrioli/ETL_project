@@ -7,3 +7,30 @@ services:
     working_dir: /app
     ports:
       - "8888:8888"
+    depends_on:
+      - mysql
+    networks:
+      - etl_network
+    
+  mysql:
+    container_name: mysql_db
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD:rootpass
+      - MYSQL_DATABASE:medical_appointment
+      - MYSQL_USER:admin
+      - MYSQL_PASSWORD:admin
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - etl_network
+    
+networks:
+  etl_network:
+volumes:
+  mysql_data:  
+
+
