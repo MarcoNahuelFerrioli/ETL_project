@@ -1,6 +1,3 @@
---Create database medical_appointments
-CREATE DATABASE IF NOT EXISTS medical_appointments;
-
 --Use medical_appointments database
 USE medical_appointments;
 
