@@ -27,10 +27,23 @@ services:
       - ./init-scripts:/docker-entrypoint-initdb.d
     networks:
       - etl_network
-    
+  postgre:
+    container_name: postgre_db
+    image: postgres:15
+    environment:
+      POSTGRES_DB: appointment_analysis
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - etl_network
+
 networks:
   etl_network:
 volumes:
   mysql_data:  
-
+  pgdata:
 
