@@ -78,3 +78,12 @@ index_queries = [
     "CREATE INDEX idx_fact_date_key ON fact_appointments(date_key);",
     "CREATE INDEX idx_fact_slot_key ON fact_appointments(slot_key);"
 ]
+
+with engine.connect() as conn:
+    conn.execute(query_dim_status)
+    conn.execute(query_dim_date)
+    conn.execute(query_dim_patient)
+    conn.execute(query_dim_slot)
+    conn.execute(query_fact_appointment)
+    for query in index_queries:
+        conn.execute(text(query))
