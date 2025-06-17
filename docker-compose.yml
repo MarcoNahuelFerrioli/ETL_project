@@ -9,6 +9,7 @@ services:
       - "8888:8888"
     depends_on:
       - mysql
+      - postgre
     networks:
       - etl_network
     

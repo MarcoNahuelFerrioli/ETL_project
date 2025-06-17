@@ -87,3 +87,4 @@ with engine.connect() as conn:
     conn.execute(query_fact_appointment)
     for query in index_queries:
         conn.execute(text(query))
+    conn.commit()
