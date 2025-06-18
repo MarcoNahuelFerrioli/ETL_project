@@ -8,6 +8,7 @@ from sqlalchemy import create_engine, text
 #Create connection for appointment_analysis database
 engine = create_engine("postgresql+psycopg2://admin:admin@postgre:5432/appointment_analysis")
 
+#Query sentences
 query_dim_patient = text("""
 CREATE TABLE IF NOT EXISTS dim_patient(
     patient_key INT,
@@ -79,6 +80,7 @@ index_queries = [
     "CREATE INDEX idx_fact_slot_key ON fact_appointments(slot_key);"
 ]
 
+#Execute create tables and indexes
 with engine.connect() as conn:
     conn.execute(query_dim_status)
     conn.execute(query_dim_date)
