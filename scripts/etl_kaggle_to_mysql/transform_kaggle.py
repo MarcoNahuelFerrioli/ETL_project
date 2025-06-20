@@ -1,5 +1,6 @@
 #Import libraries
 import pandas as pd
+import os
 
 #"Load CSVs to transform"
 #The load_csv function was created to standardize the process of loading CSV files.
@@ -9,6 +10,20 @@ import pandas as pd
 appointments = "appointments.csv"
 patients = "patients.csv"
 slots = "slots.csv"
+
+#----------------------------------Create files path with os.path--------------------------------------
+#Base dir path
+BASE_DIR=os.path.dirname(__file__)
+
+#slots.csv path
+slots_path=os.path.join(BASE_DIR,"..","..","data","raw","slots.csv")
+slots_path=os.path.abspath(slots_path)
+#patients.csv path
+patients_path=os.path.join(BASE_DIR,"..","..","data","raw","patients.csv")
+patients_path=os.path.abspath(patients_path)
+#appointment.csv path
+appointments_path=os.path.join(BASE_DIR,"..","..","data","raw","appointments.csv")
+appointments_path=os.path.abspath(appointments_path)
 
 #Create load_csv funtion
 def load_csv(file_path):
@@ -30,9 +45,9 @@ def load_csv(file_path):
         return None
 
 #Create the dataframe that will be transformed.
-df_appointments = load_csv(appointments)
-df_patients = load_csv(patients)
-df_slots = load_csv(slots)
+df_appointments = load_csv(appointments_path)
+df_patients = load_csv(patients_path)
+df_slots = load_csv(slots_path)
 
 
 #------------------------------------------Appointments CSV Transformation------------------------------------------
