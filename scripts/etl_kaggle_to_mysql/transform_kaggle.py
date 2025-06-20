@@ -131,11 +131,7 @@ patients_transformed_path=os.path.abspath(patients_transformed_path)
 appointments_transformed_path=os.path.join(BASE_DIR,"..","..","data","transformed","appointments_transformed.csv")
 appointments_transformed_path=os.path.abspath(appointments_transformed_path)
 
-#------------------------------------Load CSV files into dataframes-----------------------------------------------
-df_slots = pd.read_csv(slots_transformed_path)
-df_status = pd.read_csv(status_transformed_path)
-df_patients = pd.read_csv(patients_transformed_path)
-df_appointments = pd.read_csv(appointments_transformed_path)
+
 #----------------------------------------------------Download the new and transformed CSV-------------------------------------------------------
 #Download Appointment CSV transformed
 df_appointments.to_csv(appointments_transformed_path, index=False)

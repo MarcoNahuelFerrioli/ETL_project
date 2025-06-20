@@ -2,7 +2,7 @@
 import pandas as pd
 import pymysql
 from sqlalchemy import create_engine
-from sqlalchemt.engine import URL
+from sqlalchemy.engine import URL
 import os
 
 #--------------------------------------Create conexion to database-----------------------------------
