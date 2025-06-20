@@ -2,15 +2,6 @@
 import pandas as pd
 import os
 
-#"Load CSVs to transform"
-#The load_csv function was created to standardize the process of loading CSV files.
-#In the next step, we use this function to create the DataFrames that will be transformed.
-
-# Define the file paths for the CSVs to be used with the load_csv function
-appointments = "appointments.csv"
-patients = "patients.csv"
-slots = "slots.csv"
-
 #----------------------------------Create files path with os.path--------------------------------------
 #Base dir path
 BASE_DIR=os.path.dirname(__file__)
@@ -25,6 +16,9 @@ patients_path=os.path.abspath(patients_path)
 appointments_path=os.path.join(BASE_DIR,"..","..","data","raw","appointments.csv")
 appointments_path=os.path.abspath(appointments_path)
 
+#"Load CSVs to transform"
+#The load_csv function was created to standardize the process of loading CSV files.
+#In the next step, we use this function to create the DataFrames that will be transformed.
 #Create load_csv funtion
 def load_csv(file_path):
     try: 
@@ -120,16 +114,37 @@ data = {
 #Create the dataframe status
 df_status = pd.DataFrame(data)
 
+#----------------------------------Create files path with os.path--------------------------------------
+#Base dir path
+BASE_DIR=os.path.dirname(__file__)
 
+#slots_transformed.csv path
+slots_transformed_path=os.path.join(BASE_DIR,"..","..","data","transformed","slots_transformed.csv")
+slots_transformed_path=os.path.abspath(slots_transformed_path)
+#status_transformed.csv path
+status_transformed_path=os.path.join(BASE_DIR,"..","..","data","transformed","status_transformed.csv")
+status_transformed_path=os.path.abspath(status_transformed_path)
+#patients_transformed.csv path
+patients_transformed_path=os.path.join(BASE_DIR,"..","..","data","transformed","patients_transformed.csv")
+patients_transformed_path=os.path.abspath(patients_transformed_path)
+#appointment_transformed.csv path
+appointments_transformed_path=os.path.join(BASE_DIR,"..","..","data","transformed","appointments_transformed.csv")
+appointments_transformed_path=os.path.abspath(appointments_transformed_path)
+
+#------------------------------------Load CSV files into dataframes-----------------------------------------------
+df_slots = pd.read_csv(slots_transformed_path)
+df_status = pd.read_csv(status_transformed_path)
+df_patients = pd.read_csv(patients_transformed_path)
+df_appointments = pd.read_csv(appointments_transformed_path)
 #----------------------------------------------------Download the new and transformed CSV-------------------------------------------------------
 #Download Appointment CSV transformed
-df_appointments.to_csv('appointments_transformed.csv', index=False)
+df_appointments.to_csv(appointments_transformed_path, index=False)
 
 #Download patients CSV transformed
-df_patients.to_csv('patients_transformed.csv', index=False)
+df_patients.to_csv(patients_transformed_path, index=False)
 
 #Download slots CSV transformed
-df_slots.to_csv('slots_transformed.csv', index=False)
+df_slots.to_csv(slots_transformed_path, index=False)
 
 #Download status CSV (new)
-df_status.to_csv('status_transformed.csv', index=False)
+df_status.to_csv(status_transformed_path, index=False)

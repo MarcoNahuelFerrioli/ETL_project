@@ -22,16 +22,16 @@ engine = create_engine(url,pool_pre_ping=True )
 BASE_DIR=os.path.dirname(__file__)
 
 #slots_transformed.csv path
-slots_transformed_path=os.path.join(BASE_DIR,"..","..","data","processed","slots_transformed.csv")
+slots_transformed_path=os.path.join(BASE_DIR,"..","..","data","transformed","slots_transformed.csv")
 slots_transformed_path=os.path.abspath(slots_transformed_path)
 #status_transformed.csv path
-status_transformed_path=os.path.join(BASE_DIR,"..","..","data","processed","status_transformed.csv")
+status_transformed_path=os.path.join(BASE_DIR,"..","..","data","transformed","status_transformed.csv")
 status_transformed_path=os.path.abspath(status_transformed_path)
 #patients_transformed.csv path
-patients_transformed_path=os.path.join(BASE_DIR,"..","..","data","processed","patients_transformed.csv")
+patients_transformed_path=os.path.join(BASE_DIR,"..","..","data","transformed","patients_transformed.csv")
 patients_transformed_path=os.path.abspath(patients_transformed_path)
 #appointment_transformed.csv path
-appointments_transformed_path=os.path.join(BASE_DIR,"..","..","data","processed","appointments_transformed.csv")
+appointments_transformed_path=os.path.join(BASE_DIR,"..","..","data","transformed","appointments_transformed.csv")
 appointments_transformed_path=os.path.abspath(appointments_transformed_path)
 
 #------------------------------------Load CSV files into dataframes-----------------------------------------------

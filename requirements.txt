@@ -4,4 +4,3 @@ pymysql
 sqlalchemy
 cryptography
 psycopg2
-os

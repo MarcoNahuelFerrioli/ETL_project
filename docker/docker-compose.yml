@@ -1,9 +1,11 @@
 services:
   python:
     container_name: etl_python
-    build: .
+    build:
+      context: ..
+      dockerfile: docker/dockerfile
     volumes:
-      - .:/app
+      - ..:/app
     working_dir: /app
     ports:
       - "8888:8888"
