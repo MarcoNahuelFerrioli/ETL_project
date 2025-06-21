@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS patient(
     sex VARCHAR(50),
     dob DATE,
     insurance VARCHAR(250),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY(patient_id)
 );
 
@@ -17,6 +18,7 @@ CREATE TABLE IF NOT EXISTS slots(
     appointment_date DATE,
     appointment_time TIME,
     is_available BOOLEAN,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY(slot_id)
 );
 
@@ -24,11 +26,12 @@ CREATE TABLE IF NOT EXISTS slots(
 CREATE TABLE IF NOT EXISTS status(
     status_id INT,
     status_description VARCHAR(250),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY(status_id)
 );
 
 --Create table appointments
-CREATE TABLE appointments(
+CREATE TABLE IF NOT EXISTS appointments(
     appointment_id INT,
     slot_id INT,
     scheduling_date DATE,
@@ -39,6 +42,7 @@ CREATE TABLE appointments(
     end_time TIME, 
     waiting_time TIME,
     patient_id INT,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (appointment_id),
     CONSTRAINT fk_slot FOREIGN KEY (slot_id) REFERENCES slots (slot_id),
     CONSTRAINT fk_status FOREIGN KEY (status_id) REFERENCES status (status_id),
