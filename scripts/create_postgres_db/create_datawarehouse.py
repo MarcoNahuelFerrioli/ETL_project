@@ -91,6 +91,14 @@ CREATE TABLE IF NOT EXISTS fact_appointments(
     );
     """)
 
+query_dw_last_ts = ("""
+CREATE TABLE IF NOT EXISTS dw_last_ts (
+    source_table     TEXT PRIMARY KEY,       
+    last_extract_ts  TIMESTAMP      
+);
+""")
+
+
 index_queries = [
     "CREATE INDEX idx_fact_patient_key ON fact_appointments(patient_key);",
     "CREATE INDEX idx_fact_status_key ON fact_appointments(status_key);",
@@ -153,6 +161,7 @@ with engine.connect() as conn:
     conn.execute(query_dim_patients)
     conn.execute(query_dim_slots)
     conn.execute(query_fact_appointments)
+    conn.execute(query_dw_last_ts)
     for query in index_queries:
         conn.execute(text(query))
     conn.execute(query_trigger_sql)
