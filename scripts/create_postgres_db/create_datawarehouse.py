@@ -116,6 +116,13 @@ index_queries = [
 
 ]
 
+#This UNIQUES INDEXES Eeables ON CONFLICT on tables (assumed to be unique in the source system)
+unique_index_queries = [
+    "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_patient_id ON dim_patients(patient_id);",
+    "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_patient_id ON dim_patients(patient_id);",
+    "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_patient_id ON dim_patients(patient_id);",
+    "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_patient_id ON dim_patients(patient_id);",
+]
 query_trigger_sql = text("""
 CREATE OR REPLACE FUNCTION trg_set_dw_update_ts()
 RETURNS TRIGGER AS $$
