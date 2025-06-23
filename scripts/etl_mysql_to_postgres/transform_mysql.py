@@ -47,16 +47,5 @@ df_status = load_csv(status_extracted_path)
 df_patients = load_csv(patients_extracted_path)
 df_slots = load_csv(slots_extracted_path)
 
-#-------------------------------Transform appointments_extracted.csv--------------------------------------------------
 
-#Drop scheduling_interval column
-df_appointments.drop(["scheduling_interval"], axis=1)
 
-#Rename columns to match with columns of appointment_analysis data base
-df_appointments = df_appointments.rename(columns={
-    "appointments_id":"appointment_key", 
-    "slot_id":"slot_key", 
-    "status_id":"status_key",
-    "appointment_duration":"duration_minutes",
-    "waiting_time": "waiting_minutes",
-    "patient_id":"patient_key"})
