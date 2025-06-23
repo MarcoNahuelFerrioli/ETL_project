@@ -19,17 +19,6 @@ url_postgresql = URL.create(
 
 engine_postgresql = create_engine(url_postgresql,pool_pre_ping=True)
 
-# Create conexion to medical_appointment data base
-url_mysql = URL.create(
-    drivername="mysql+pymysql",
-    username=os.getenv("MYSQL_USER", "admin"),
-    password=os.getenv("MYSQL_PASSWORD", "admin"),
-    host=os.getenv("MYSQL_HOST", "mysql"),
-    port=int(os.getenv("MYSQL_PORT", 3306)),
-    database=os.getenv("MYSQL_DB", "medical_appointments"),
-)
-
-engine_mysql = create_engine(url_mysql,pool_pre_ping=True )
 
 # ----------------------------------Create files path with os.path--------------------------------------
 # Base dir path
@@ -201,7 +190,7 @@ waiting_minutes = EXCLUDED.waiting_minutes,
 duration_minutes = EXCLUDED.duration_minutes;
 """)
 #If the DataFrame exists, load the data into the database.
-if df_status:
+if df_appointments:
     with engine_postgresql.begin() as conn:
         conn.execute(query_appointments, df_appointments)
         print("Appointments fact loaded.")
