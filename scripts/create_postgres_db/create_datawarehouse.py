@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS dim_patients(
     patient_key SERIAL,
     patient_id INT,
     sex VARCHAR(50),
-    age_group VARCHAR(20),
+    dob DATE,
     insurance VARCHAR(250),
     dw_load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     dw_update_ts TIMESTAMP NULL, 
@@ -36,7 +36,6 @@ CREATE TABLE IF NOT EXISTS dim_patients(
 query_dim_date = text("""
 CREATE TABLE IF NOT EXISTS dim_date(
     date_key SERIAL,
-    date_id INT,
     date DATE,
     day_of_week VARCHAR(15),
     month_name VARCHAR(15),
@@ -64,8 +63,9 @@ query_dim_slots = text("""
 CREATE TABLE IF NOT EXISTS dim_slots(
     slot_key SERIAL,
     slot_id INT,
-    appointment_time TIME,
+    appointment_date DATE,
     is_available BOOLEAN,
+    date_key INT,
     dw_load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
     dw_update_ts TIMESTAMP NULL, 
     PRIMARY KEY (slot_key)
@@ -119,9 +119,9 @@ index_queries = [
 #This UNIQUES INDEXES Eeables ON CONFLICT on tables (assumed to be unique in the source system)
 unique_index_queries = [
     "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_patient_id ON dim_patients(patient_id);",
-    "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_patient_id ON dim_patients(patient_id);",
-    "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_patient_id ON dim_patients(patient_id);",
-    "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_patient_id ON dim_patients(patient_id);",
+    "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_status_id ON dim_status(status_id);",
+    "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_slot_id ON dim_slots(slot_id);",
+    "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_appointment_id ON dim_appointments(appointment_id);",
 ]
 query_trigger_sql = text("""
 CREATE OR REPLACE FUNCTION trg_set_dw_update_ts()
@@ -178,6 +178,8 @@ with engine.connect() as conn:
     conn.execute(query_fact_appointments)
     conn.execute(query_dw_last_ts)
     for query in index_queries:
+        conn.execute(text(query))
+    for query in unique_index_queries:
         conn.execute(text(query))
     conn.execute(query_trigger_sql)
     conn.commit()
