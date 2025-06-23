@@ -96,8 +96,8 @@ CREATE TABLE IF NOT EXISTS fact_appointments(
     );
     """)
 
-query_dw_last_ts = ("""
-CREATE TABLE IF NOT EXISTS dw_last_ts (
+query_dw_last_ts = text("""
+CREATE TABLE IF NOT EXISTS dw_last_ts(
     source_table     TEXT PRIMARY KEY,       
     last_extract_ts  TIMESTAMP      
 );
@@ -105,11 +105,11 @@ CREATE TABLE IF NOT EXISTS dw_last_ts (
 
 
 index_queries = [
-    "CREATE INDEX idx_fact_patient_key ON fact_appointments(patient_key);",
-    "CREATE INDEX idx_fact_status_key ON fact_appointments(status_key);",
-    "CREATE INDEX idx_fact_date_key ON fact_appointments(date_key);",
-    "CREATE INDEX idx_fact_slot_key ON fact_appointments(slot_key);",
-    "CREATE INDEX idx_fact_update_ts ON fact_appointments(dw_update_ts);"
+    "CREATE INDEX IF NOT EXISTS idx_fact_patient_key ON fact_appointments(patient_key);",
+    "CREATE INDEX IF NOT EXISTS idx_fact_status_key ON fact_appointments(status_key);",
+    "CREATE INDEX IF NOT EXISTS idx_fact_date_key ON fact_appointments(date_key);",
+    "CREATE INDEX IF NOT EXISTS idx_fact_slot_key ON fact_appointments(slot_key);",
+    "CREATE INDEX IF NOT EXISTS idx_fact_update_ts ON fact_appointments(dw_update_ts);"
 
 ]
 

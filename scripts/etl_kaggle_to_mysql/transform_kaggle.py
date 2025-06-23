@@ -51,7 +51,7 @@ df_slots = load_csv(slots_path)
 
 #Transformation:
 
-#1. We remove the columns appointment_date, appointment_time, sex, age, and age_group because this information is already present in the patients and slots tables.
+#1. We remove the columns scheduling_interval, appointment_date, appointment_time, sex, age, and age_group because this information is already present in the patients and slots tables.
 
 #2. Transform the 'status' column to follow Third Normal Form (3NF) by referencing a status ID from a separate status lookup table. Then, rename the column to 'status_id'. (At the end of the transformation, we will create the status CSV that includes the 'status_id' and 'status_description'.)
 
@@ -59,7 +59,7 @@ df_slots = load_csv(slots_path)
 
 #Transformation 1
 #Remove columns appointment_date, appointment_time, sex, age, and age_group
-df_appointments = df_appointments.drop(["appointment_date", "appointment_time", "sex", "age", "age_group"], axis=1)
+df_appointments = df_appointments.drop(["scheduling_interval", "appointment_date", "appointment_time", "sex", "age", "age_group"], axis=1)
 
 #Transformation 2
 #Change the values in the status column to numeric codes (did not attend = 1, attended = 2, and cancelled = 3).

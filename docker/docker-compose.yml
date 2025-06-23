@@ -20,7 +20,7 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_DATABASE: medical_appointment
+      MYSQL_DATABASE: medical_appointments
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin
     ports:

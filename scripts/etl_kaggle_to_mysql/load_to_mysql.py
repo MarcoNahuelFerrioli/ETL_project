@@ -12,7 +12,7 @@ url = URL.create(
     password=os.getenv("MYSQL_PASSWORD", "admin"),
     host=os.getenv("MYSQL_HOST", "mysql"),
     port=int(os.getenv("MYSQL_PORT", 3306)),
-    database=os.getenv("MYSQL_DB", "medical_appointment"),
+    database=os.getenv("MYSQL_DB", "medical_appointments"),
 )
 
 engine = create_engine(url,pool_pre_ping=True )
@@ -44,27 +44,29 @@ df_appointments = pd.read_csv(appointments_transformed_path)
 df_slots.to_sql(
     "slots",
     con=engine,
-    if_exists="replace",
+    if_exists="append",
     index=False
 )
 
 df_status.to_sql(
     "status",
     con=engine,
-    if_exists="replace",
+    if_exists="append",
     index=False
 )
 
 df_patients.to_sql(
     "patients",
     con=engine,
-    if_exists="replace",
+    if_exists="append",
     index=False
 )
 
 df_appointments.to_sql(
     "appointments",
     con=engine,
-    if_exists="replace",
+    if_exists="append",
     index=False
 )
+
+print("Data loaded successfully")

@@ -29,4 +29,6 @@ df = pd.DataFrame({
 
 #Load data into dim_date
 with engine.begin() as conn:
-    df.to_sql("dim_date", conn, if_exists="append", index=False, method="multi")
+    df.to_sql("dim_date", conn, if_exists="append", index=False)
+
+print("dim_date table loaded successfully")
