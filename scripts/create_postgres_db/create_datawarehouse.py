@@ -75,11 +75,14 @@ CREATE TABLE IF NOT EXISTS dim_slots(
 query_fact_appointments = text("""
 CREATE TABLE IF NOT EXISTS fact_appointments(
     appointment_key SERIAL,
-    appointment_id INT,
     patient_key INT, 
     status_key INT, 
     date_key INT, 
-    slot_key INT, 
+    slot_key INT,
+    appointment_id INT,
+    patient_id INT,
+    status_id INT,
+    slot_id INT,
     scheduling_date DATE, 
     check_in_time TIME, 
     start_time TIME, 
