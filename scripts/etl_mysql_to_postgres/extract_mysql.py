@@ -87,6 +87,26 @@ with engine_mysql.connect() as mysql_conn:
         last_ts = result.scalar() or pd.Timestamp("1970-01-01")
         last_ts_dict[tbl] = last_ts
 
+# This code converts the appointment_time column to TIME, 
+# because when the data is extracted, the column is read as a timedelta.
+df_slots_raw['appointment_time'] = df_slots_raw['appointment_time'].astype(str).str.split(' ').str[-1]
+df_slots_raw['appointment_time'] = pd.to_datetime(df_slots_raw['appointment_time'], format='%H:%M:%S', errors='coerce').dt.time
+
+df_appointment_raw['check_in_time'] = df_appointment_raw['check_in_time'].astype(str).str.split(' ').str[-1]
+df_appointment_raw['check_in_time'] = pd.to_datetime(df_appointment_raw['check_in_time'], format='%H:%M:%S', errors='coerce').dt.time
+
+df_appointment_raw['start_time'] = df_appointment_raw['start_time'].astype(str).str.split(' ').str[-1]
+df_appointment_raw['start_time'] = pd.to_datetime(df_appointment_raw['start_time'], format='%H:%M:%S', errors='coerce').dt.time
+
+df_appointment_raw['end_time'] = df_appointment_raw['end_time'].astype(str).str.split(' ').str[-1]
+df_appointment_raw['end_time'] = pd.to_datetime(df_appointment_raw['end_time'], format='%H:%M:%S', errors='coerce').dt.time
+
+#Replace NaN with None
+for col in ['check_in_time', 'start_time', 'end_time']:
+    df_appointment_raw[col] = df_appointment_raw[col].where(
+        pd.notnull(df_appointment_raw[col]), None
+    ).astype(object)
+
 #-----------------------------Load last timestamp into dw_last_ts table -----------------------------------
 upsert_sql = text("""
     INSERT INTO dw_last_ts (source_table, last_extract_ts)

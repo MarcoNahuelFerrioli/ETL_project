@@ -24,6 +24,7 @@ query_dim_patients = text("""
 CREATE TABLE IF NOT EXISTS dim_patients(
     patient_key SERIAL,
     patient_id INT,
+    name VARCHAR(250),
     sex VARCHAR(50),
     dob DATE,
     insurance VARCHAR(250),
@@ -64,6 +65,7 @@ CREATE TABLE IF NOT EXISTS dim_slots(
     slot_key SERIAL,
     slot_id INT,
     appointment_date DATE,
+    appointment_time TIME,
     is_available BOOLEAN,
     date_key INT,
     dw_load_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
@@ -121,7 +123,7 @@ unique_index_queries = [
     "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_patient_id ON dim_patients(patient_id);",
     "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_status_id ON dim_status(status_id);",
     "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_slot_id ON dim_slots(slot_id);",
-    "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_appointment_id ON dim_appointments(appointment_id);",
+    "CREATE UNIQUE INDEX IF NOT EXISTS idx_unique_appointment_id ON fact_appointments(appointment_id);",
 ]
 query_trigger_sql = text("""
 CREATE OR REPLACE FUNCTION trg_set_dw_update_ts()

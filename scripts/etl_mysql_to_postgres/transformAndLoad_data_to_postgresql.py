@@ -69,8 +69,12 @@ df_slots = load_csv(slots_extracted_path)
 # Create 'date_key' from 'appointment_date' in 'df_slots' using YYYYMMDD format.
 # This allows assigning the correct 'date_key' to fact_appointments without querying dim_date,
 # optimizing performance and simplifying the ETL process.
-
+df_slots['appointment_date'] = pd.to_datetime(df_slots['appointment_date'])
 df_slots['date_key'] = df_slots['appointment_date'].dt.strftime("%Y%m%d").astype(int)
+
+# ---------------# Convert 'is_available' column from 0/1 integers to boolean False/True------------------------
+df_slots['is_available'] = df_slots['is_available'].astype(bool)
+
 
 # ------------------Load df_status, df_patients and df_slots into apointments_analysis database (postgresql)---------
 
@@ -101,7 +105,7 @@ insurance = EXCLUDED.insurance;
 
 query_slots = text("""
 INSERT INTO dim_slots (slot_id, appointment_date, appointment_time, is_available, date_key)
-VALUES (:slot_id, :appointment_date, :appointment_time, :is_available)
+VALUES (:slot_id, :appointment_date, :appointment_time, :is_available, :date_key)
 ON CONFLICT (slot_id)
 DO UPDATE SET
 appointment_date = EXCLUDED.appointment_date,
@@ -157,6 +161,15 @@ df_appointments = pd.merge(df_appointments, df_patients_extracted, on="patient_i
 df_appointments = pd.merge(df_appointments, df_slots_extracted, on="slot_id")
 
 
+# ----------------Convert time columns and replace NaN with None so PostgreSQL accepts NULLs------------
+time_cols = ['check_in_time', 'start_time', 'end_time']
+
+for col in time_cols:
+    df_appointments[col] = pd.to_datetime(df_appointments[col], format="%H:%M:%S", errors="coerce").dt.time
+    df_appointments[col] = df_appointments[col].where(pd.notnull(df_appointments[col]), None)
+
+
+
 # --------------------------------------------------Rename and reorganice columns in df_appointments.---------------------------------------------------
 df_appointments = df_appointments.rename(columns={
     "appointment_duration": "duration_minutes",
@@ -171,7 +184,7 @@ df_appointments = df_appointments[['patient_key', 'status_key', 'date_key', 'slo
 
 #Writte query to insert or update data into database
 query_appointments = text("""
-INSERT INTO fact_appointmets (patient_key, status_key, date_key, slot_key, appointment_id, patient_id, status_id, slot_id, scheduling_date, check_in_time, start_time, end_time, waiting_minutes, duration_minutes)
+INSERT INTO fact_appointments (patient_key, status_key, date_key, slot_key, appointment_id, patient_id, status_id, slot_id, scheduling_date, check_in_time, start_time, end_time, waiting_minutes, duration_minutes)
 VALUES (:patient_key, :status_key, :date_key, :slot_key, :appointment_id, :patient_id, :status_id, :slot_id, :scheduling_date, :check_in_time, :start_time, :end_time, :waiting_minutes, :duration_minutes)
 ON CONFLICT (appointment_id)
 DO UPDATE SET
